@@ -85,10 +85,10 @@ const part2 = input => {
 /* TESTS */
 
 const testInput1 = 'F10\nN3\nF7\nR90\nF11';
-// console.assert(part1(testInput1) === 25, "Code doesn't work");
+console.assert(part1(testInput1) === 25, "Code doesn't work");
 console.assert(part2(testInput1) === 286, "Code doesn't work");
 
 const input = require('./inputs.json').day12;
 
-// console.log(part1(input));
+console.log(part1(input));
 console.log(part2(input));
