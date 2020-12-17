@@ -68,51 +68,51 @@ const part2 = input => {
 
 /* TESTS */
 
-const testData1 = [
-  [
-    `class: 1-3 or 5-7
-row: 6-11 or 33-44
-seat: 13-40 or 45-50
+// const testData1 = [
+//   [
+//     `class: 1-3 or 5-7
+// row: 6-11 or 33-44
+// seat: 13-40 or 45-50
 
-your ticket:
-7,1,14
+// your ticket:
+// 7,1,14
 
-nearby tickets:
-7,3,47
-40,4,50
-55,2,20
-38,6,12`,
-    71,
-  ],
-];
+// nearby tickets:
+// 7,3,47
+// 40,4,50
+// 55,2,20
+// 38,6,12`,
+//     71,
+//   ],
+// ];
 
-testData1.forEach(([input, output], i) => {
-  const result = part1(input);
-  const testPassed = result === output;
-  if (!testPassed) {
-    console.error(`Test ${i + 1} (part 1) failed`);
-    console.error(`Result was ${result}, expected ${output}`);
-    throw 'Test failed';
-  }
-  console.log(`Test ${i + 1} (part 1) passed`);
-});
+// testData1.forEach(([input, output], i) => {
+//   const result = part1(input);
+//   const testPassed = result === output;
+//   if (!testPassed) {
+//     console.error(`Test ${i + 1} (part 1) failed`);
+//     console.error(`Result was ${result}, expected ${output}`);
+//     throw 'Test failed';
+//   }
+//   console.log(`Test ${i + 1} (part 1) passed`);
+// });
 
-const testData2 = [
-  [
-    `class: 0-1 or 4-19
-row: 0-5 or 8-19
-seat: 0-13 or 16-19
+// const testData2 = [
+//   [
+//     `class: 0-1 or 4-19
+// row: 0-5 or 8-19
+// seat: 0-13 or 16-19
 
-your ticket:
-11,12,13
+// your ticket:
+// 11,12,13
 
-nearby tickets:
-3,9,18
-15,1,5
-5,14,9`,
-    { row: 11, class: 12, seat: 13 },
-  ],
-];
+// nearby tickets:
+// 3,9,18
+// 15,1,5
+// 5,14,9`,
+//     { row: 11, class: 12, seat: 13 },
+//   ],
+// ];
 
 // testData2.forEach(([input, output], i) => {
 //   const result = part2(input);
@@ -125,6 +125,4 @@ nearby tickets:
 //   console.log(`Test ${i + 1} (part 2) passed`);
 // });
 
-const input = require('./inputs.json').day16;
-console.log(part1(input));
-console.log(part2(input));
+module.exports = { part1, part2 };

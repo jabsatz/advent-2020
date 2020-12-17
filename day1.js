@@ -1,18 +1,18 @@
-const part1 = (numbers) => {
+const part1 = numbers => {
   let secondNumber;
   const number = numbers.find((n1, i, arr) => {
-    secondNumber = arr.slice(i + 1).find((n2) => n1 + n2 === 2020);
+    secondNumber = arr.slice(i + 1).find(n2 => n1 + n2 === 2020);
     return !!secondNumber;
   });
   return number * secondNumber;
 };
 
-const part2 = (numbers) => {
+const part2 = numbers => {
   let secondNumber;
   let thirdNumber;
   const number = numbers.find((n1, i, arr) => {
     secondNumber = arr.slice(i + 1).find((n2, i, arr) => {
-      thirdNumber = arr.slice(i + 1).find((n3) => n1 + n2 + n3 === 2020);
+      thirdNumber = arr.slice(i + 1).find(n3 => n1 + n2 + n3 === 2020);
       return !!thirdNumber;
     });
     return !!secondNumber;
@@ -20,7 +20,4 @@ const part2 = (numbers) => {
   return number * secondNumber * thirdNumber;
 };
 
-const input = require("./inputs.json").day1;
-
-console.log(part1(input));
-console.log(part2(input));
+module.exports = { part1, part2 };

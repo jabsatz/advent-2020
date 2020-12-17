@@ -105,7 +105,4 @@ acc +6`;
 console.assert(part1(testInput1) === 5, "Code doesn't work");
 console.assert(part2(testInput1) === 8, "Code doesn't work");
 
-const input = require('./inputs.json').day8;
-
-console.log(part1(input));
-console.log(part2(input));
+module.exports = { part1, part2 };

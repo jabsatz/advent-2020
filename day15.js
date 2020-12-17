@@ -45,26 +45,24 @@ const testData1 = [
   ['3,1,2', 1836, 362],
 ];
 
-testData1.forEach(([input, output1, output2], i) => {
-  const result1 = part1(input);
-  const test1Passed = result1 === output1;
-  if (!test1Passed) {
-    console.error(`Test ${i + 1} (part 1) failed`);
-    console.error(`Result was ${result1}, expected ${output1}`);
-    throw 'Test failed';
-  }
-  console.log(`Test ${i + 1} (part 1) passed`);
+// testData1.forEach(([input, output1, output2], i) => {
+//   const result1 = part1(input);
+//   const test1Passed = result1 === output1;
+//   if (!test1Passed) {
+//     console.error(`Test ${i + 1} (part 1) failed`);
+//     console.error(`Result was ${result1}, expected ${output1}`);
+//     throw 'Test failed';
+//   }
+//   console.log(`Test ${i + 1} (part 1) passed`);
 
-  const result2 = part2(input);
-  const test2Passed = result2 === output2;
-  if (!test2Passed) {
-    console.error(`Test ${i + 1} (part 2) failed`);
-    console.error(`Result was ${result2}, expected ${output2}`);
-    throw 'Test failed';
-  }
-  console.log(`Test ${i + 1} (part 2) passed`);
-});
+//   const result2 = part2(input);
+//   const test2Passed = result2 === output2;
+//   if (!test2Passed) {
+//     console.error(`Test ${i + 1} (part 2) failed`);
+//     console.error(`Result was ${result2}, expected ${output2}`);
+//     throw 'Test failed';
+//   }
+//   console.log(`Test ${i + 1} (part 2) passed`);
+// });
 
-const input = require('./inputs.json').day15;
-console.log(part1(input));
-console.log(part2(input));
+module.exports = { part1, part2 };
