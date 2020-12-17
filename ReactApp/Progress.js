@@ -60,8 +60,11 @@ const NewText = ({ result, error, day }) => {
     );
   }
   if (error) {
-    console.error(error);
-    return <Text>Error while fetching.</Text>;
+    return (
+      <Text color="whiteBright">
+        Error: <Text color="redBright">{error}</Text>
+      </Text>
+    );
   }
   return <Text>Fetching input and creating file for day {day}...</Text>;
 };
@@ -100,21 +103,29 @@ const Progress = ({ option, day, onFinish }) => {
           setError(err);
         }
       } else if (option === OPTION_TYPE.NEW) {
-        const response = await axios({
-          url: `https://adventofcode.com/${process.env.ADVENT_YEAR}/day/${day}/input`,
-          headers: {
-            cookie: `session=${process.env.SESSION_TOKEN}`,
-          },
-        });
-        const newInputs = { ...inputs };
-        newInputs[`day${day}`] = response.data.substring(0, response.data.length - 1); // remove trailing newline
-        await fs.writeFile('./inputs.json', JSON.stringify(newInputs), 'utf-8');
         try {
-          await fs.access(`./day${day}.js`);
+          const response = await axios({
+            url: `https://adventofcode.com/${process.env.ADVENT_YEAR}/day/${day}/input`,
+            headers: {
+              cookie: `session=${process.env.SESSION_TOKEN}`,
+            },
+          });
+          const newInputs = { ...inputs };
+          newInputs[`day${day}`] = response.data.substring(0, response.data.length - 1); // remove trailing newline
+          await fs.writeFile('./inputs.json', JSON.stringify(newInputs), 'utf-8');
+          try {
+            await fs.access(`./day${day}.js`);
+          } catch (error) {
+            await fs.writeFile(`./day${day}.js`, template, 'utf-8');
+          }
+          setResult(response.data);
         } catch (error) {
-          await fs.writeFile(`./day${day}.js`, template, 'utf-8');
+          if (error?.response?.status === 404) {
+            return setError('Day is not yet available.');
+          }
+          console.error(error);
+          return setError('Unhandled error');
         }
-        setResult(response.data);
       } else if (option === OPTION_TYPE.TEST) {
         const { test } = require(`../day${day}`);
         try {
@@ -132,7 +143,7 @@ const Progress = ({ option, day, onFinish }) => {
   }, [day, option, isStarted]);
 
   useInput(() => {
-    if (result) onFinish();
+    if (result || error) onFinish();
   });
 
   return (
@@ -142,7 +153,7 @@ const Progress = ({ option, day, onFinish }) => {
         {option === OPTION_TYPE.NEW && <NewText day={day} error={error} result={result} />}
         {option === OPTION_TYPE.TEST && <TestText day={day} error={error} result={result} />}
       </Box>
-      {result && (
+      {(result || error) && (
         <Box>
           <Text>Press any key to continue</Text>
         </Box>
