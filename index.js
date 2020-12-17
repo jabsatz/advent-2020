@@ -1,3 +1,3 @@
-process.env.ADVENT_YEAR = '2020';
+require('dotenv').config();
 const importJsx = require('import-jsx');
 importJsx('./ReactApp/Advent');
