@@ -28,9 +28,4 @@ const part2 = seatCodes => {
   }
 };
 
-/* TESTS */
-console.assert(part1(['BFFFBBFRRR']) === 567, "Code doesn't work");
-console.assert(part1(['FFFBBBFRRR']) === 119, "Code doesn't work");
-console.assert(part1(['BBFFBBFRLL']) === 820, "Code doesn't work");
-
 module.exports = { part1, part2 };

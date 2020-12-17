@@ -6,7 +6,6 @@ const calculate = (actions, state, reducer) => {
   const action = _.head(actions);
   if (!action) return state;
   const newState = reducer(action, state);
-  console.log(newState);
   return calculate(_.tail(actions), newState, reducer);
 };
 
@@ -81,11 +80,5 @@ const part2 = input => {
   const finalState = calculate(actions, initialState, part2Reducer);
   return Math.abs(finalState.ship.x) + Math.abs(finalState.ship.y);
 };
-
-/* TESTS */
-
-const testInput1 = 'F10\nN3\nF7\nR90\nF11';
-console.assert(part1(testInput1) === 25, "Code doesn't work");
-console.assert(part2(testInput1) === 286, "Code doesn't work");
 
 module.exports = { part1, part2 };

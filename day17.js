@@ -93,34 +93,4 @@ const part2 = input => {
   return _.filter(cube => cube.type === TYPES.ACTIVE, cubes).length;
 };
 
-const test = () => {
-  const testData1 = [['.#.\n..#\n###', 112]];
-
-  testData1.forEach(([input, output], i) => {
-    const result = part1(input);
-    const testPassed = result === output;
-    if (!testPassed) {
-      console.error(`Test ${i + 1} (part 1) failed`);
-      console.error(`Result was ${result}, expected ${output}`);
-      throw 'Test failed';
-    }
-  });
-
-  const testData2 = [['.#.\n..#\n###', 848]];
-
-  testData2.forEach(([input, output], i) => {
-    const result = part2(input);
-    const testPassed = result === output;
-    if (!testPassed) {
-      console.error(`Test ${i + 1} (part 2) failed`);
-      console.error(`Result was ${result}, expected ${output}`);
-      throw 'Test failed';
-    }
-  });
-
-  return true;
-};
-
-test();
-
-module.exports = { part1, part2, test };
+module.exports = { part1, part2 };

@@ -28,8 +28,4 @@ const part2 = input => {
   return answersPerGroup.reduce((prev, curr) => prev + curr, 0);
 };
 
-/* TESTS */
-console.assert(part1('abc\n\na\nb\nc\n\nab\nac\n\na\na\na\na\n\nb') === 11, "Code doesn't work");
-console.assert(part2('abc\n\na\nb\nc\n\nab\nac\n\na\na\na\na\n\nb') === 6, "Code doesn't work");
-
 module.exports = { part1, part2 };

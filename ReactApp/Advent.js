@@ -1,7 +1,7 @@
 const React = require('react');
 const { useState } = require('react');
-const { render, Text, Static, Box } = require('ink');
-const { OPTION_TYPE, PHASE_TYPE } = require('./constants');
+const { render, Text, Box } = require('ink');
+const { PHASE_TYPE } = require('./constants');
 const importJsx = require('import-jsx');
 const figlet = require('figlet');
 
@@ -9,14 +9,9 @@ const Options = importJsx('./Options');
 const Day = importJsx('./Day');
 const Progress = importJsx('./Progress');
 
-const Advent = ({ title }) => {
+const Advent = () => {
   const [phase, setPhase] = useState(PHASE_TYPE.OPTIONS);
   const [selectedOption, setSelectedOption] = useState(null);
-  const options = [
-    { name: 'Run day', key: OPTION_TYPE.RUN },
-    { name: 'Test day', key: OPTION_TYPE.TEST },
-    { name: 'New day', key: OPTION_TYPE.NEW },
-  ];
   const [selectedDay, setSelectedDay] = useState(null);
 
   const onSelectOption = selectedOption => {
@@ -38,9 +33,9 @@ const Advent = ({ title }) => {
   return (
     <Box flexDirection="column">
       <Box marginBottom={1}>
-        <Text color="green">{title}</Text>
+        <Text color="green">{figlet.textSync('Advent of code', 'Big Money-nw')}</Text>
       </Box>
-      {phase === PHASE_TYPE.OPTIONS && <Options onSelect={onSelectOption} options={options} />}
+      {phase === PHASE_TYPE.OPTIONS && <Options onSelect={onSelectOption} />}
       {phase === PHASE_TYPE.DAY && <Day onSelect={onSelectDay} />}
       {phase === PHASE_TYPE.IN_PROGRESS && <Progress option={selectedOption} day={selectedDay} onFinish={onFinish} />}
     </Box>
@@ -49,6 +44,4 @@ const Advent = ({ title }) => {
 
 process.stdout.write('\x1Bc');
 
-figlet('Advent of code', { font: 'Big Money-nw' }, (err, data) => {
-  render(<Advent title={data} />);
-});
+render(<Advent />);

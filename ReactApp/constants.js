@@ -10,4 +10,10 @@ const PHASE_TYPE = {
   IN_PROGRESS: 'in-progress',
 };
 
-module.exports = { OPTION_TYPE, PHASE_TYPE };
+const options = [
+  { name: 'Run day', key: OPTION_TYPE.RUN },
+  { name: 'Test day', key: OPTION_TYPE.TEST },
+  { name: 'New day', key: OPTION_TYPE.NEW },
+];
+
+module.exports = { OPTION_TYPE, PHASE_TYPE, options };

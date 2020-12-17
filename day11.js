@@ -118,17 +118,4 @@ const part2 = input => {
   return occupiedSeats.length;
 };
 
-const testInput1 = `L.LL.LL.LL
-LLLLLLL.LL
-L.L.L..L..
-LLLL.LL.LL
-L.LL.LL.LL
-L.LLLLL.LL
-..L.L.....
-LLLLLLLLLL
-L.LLLLLL.L
-L.LLLLL.LL`;
-console.assert(part1(testInput1) === 37, "Code doesn't work");
-console.assert(part2(testInput1) === 26, "Code doesn't work");
-
 module.exports = { part1, part2 };

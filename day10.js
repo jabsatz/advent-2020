@@ -92,13 +92,4 @@ const part2 = input => {
   return count;
 };
 
-/* TESTS */
-const testInput1 = [16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4];
-/* prettier-ignore */
-const testInput2 = [28,33,18,42,31,14,46,20,48,47,24,23,49,45,19,38,39,11,1,32,25,35,8,17,7,9,4,2,34,10,3];
-console.assert(part1(testInput1) === 7 * 5, "Code doesn't work");
-console.assert(part1(testInput2) === 22 * 10, "Code doesn't work");
-console.assert(part2(testInput1) === 8, "Code doesn't work");
-console.assert(part2(testInput2) === 19208, "Code doesn't work");
-
 module.exports = { part1, part2 };

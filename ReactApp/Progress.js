@@ -6,8 +6,22 @@ const inputs = require('../inputs.json');
 const { OPTION_TYPE } = require('./constants');
 const axios = require('axios');
 const fs = require('fs/promises');
+const importJsx = require('import-jsx');
+const Test = importJsx('./Test');
 
-const template = `const _ = require('lodash');
+const createTestTemplate = day => `const { part1, part2 } = require('./day${day}')
+  const input = "";
+
+  test('part1', () => {
+    expect(part1(input)).toBe(output);
+  });
+
+  test('part2', () => {
+    expect(part2(input)).toBe(output);
+  });
+`;
+
+const codeTemplate = `const _ = require('lodash');
 
 const parse = (input) => {
 
@@ -21,11 +35,7 @@ const part2 = (input) => {
   parse(input);
 };
 
-const test = (input) => {
-
-};
-
-module.exports = { part1, part2, test };
+module.exports = { part1, part2 };
 `;
 
 const RunText = ({ result, error, day }) => {
@@ -69,24 +79,8 @@ const NewText = ({ result, error, day }) => {
   return <Text>Fetching input and creating file for day {day}...</Text>;
 };
 
-const TestText = ({ result, error, day }) => {
-  if (result) {
-    return (
-      <Text color="whiteBright">
-        All tests for day {day} passed.
-        <Newline />
-        <Text color="cyan">{result}</Text>
-      </Text>
-    );
-  }
-  if (error) {
-    console.error(error);
-    return <Text>Error on tests or test export doesn't exist.</Text>;
-  }
-  return <Text>Running tests for day {day}...</Text>;
-};
-
 const Progress = ({ option, day, onFinish }) => {
+  if (option === OPTION_TYPE.TEST) return <Test day={day} onFinish={onFinish} />;
   const [isStarted, setIsStarted] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
@@ -116,23 +110,19 @@ const Progress = ({ option, day, onFinish }) => {
           try {
             await fs.access(`./day${day}.js`);
           } catch (error) {
-            await fs.writeFile(`./day${day}.js`, template, 'utf-8');
+            await fs.writeFile(`./day${day}.js`, codeTemplate, 'utf-8');
+            await fs.writeFile(`./day${day}.test.js`, createTestTemplate(day), 'utf-8');
           }
           setResult(response.data);
         } catch (error) {
           if (error?.response?.status === 404) {
             return setError('Day is not yet available.');
           }
+          if (error?.response?.status === 401) {
+            return setError('Unauthorized. Did you remember to set the SESSION_TOKEN env variable?');
+          }
           console.error(error);
           return setError('Unhandled error');
-        }
-      } else if (option === OPTION_TYPE.TEST) {
-        const { test } = require(`../day${day}`);
-        try {
-          const result = await test();
-          setResult(result);
-        } catch (err) {
-          setError(err);
         }
       }
     };

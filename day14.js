@@ -85,48 +85,4 @@ const part2 = input => {
   return _.reduce(memory, (prev, curr) => prev + curr, 0);
 };
 
-/* TESTS */
-
-// const testData1 = [
-//   [
-//     `mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X
-// mem[8] = 11
-// mem[7] = 101
-// mem[8] = 0`,
-//     165,
-//   ],
-// ];
-
-// testData1.forEach(([input, output], i) => {
-//   const result1 = part1(input);
-//   const test1Passed = result1 === output;
-//   if (!test1Passed) {
-//     console.error(`Test ${i + 1} (part 1) failed`);
-//     console.error(`Result was ${result1}, expected ${output}`);
-//     throw 'Test failed';
-//   }
-//   console.log(`Test ${i + 1} (part 1) passed`);
-// });
-
-// const testData2 = [
-//   [
-//     `mask = 000000000000000000000000000000X1001X
-// mem[42] = 100
-// mask = 00000000000000000000000000000000X0XX
-// mem[26] = 1`,
-//     208,
-//   ],
-// ];
-
-// testData2.forEach(([input, output], i) => {
-//   const result1 = part2(input);
-//   const test1Passed = result1 === output;
-//   if (!test1Passed) {
-//     console.error(`Test ${i + 1} (part 2) failed`);
-//     console.error(`Result was ${result1}, expected ${output}`);
-//     throw 'Test failed';
-//   }
-//   console.log(`Test ${i + 1} (part 2) passed`);
-// });
-
 module.exports = { part1, part2 };

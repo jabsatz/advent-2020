@@ -92,17 +92,4 @@ const part2 = input => {
   return runInstructions(instructions, false);
 };
 
-/* TESTS */
-const testInput1 = `nop +0
-acc +1
-jmp +4
-acc +3
-jmp -3
-acc -99
-acc +1
-jmp -4
-acc +6`;
-console.assert(part1(testInput1) === 5, "Code doesn't work");
-console.assert(part2(testInput1) === 8, "Code doesn't work");
-
 module.exports = { part1, part2 };

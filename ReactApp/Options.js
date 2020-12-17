@@ -2,6 +2,7 @@ const React = require('react');
 const { useState } = require('react');
 const _ = require('lodash');
 const { Text, useInput, Box } = require('ink');
+const { options } = require('./constants');
 
 const useOptions = options => {
   const [selectedOption, setSelectedOption] = useState(0);
@@ -16,7 +17,7 @@ const useOptions = options => {
   return selectedOption;
 };
 
-const Options = ({ onSelect, options }) => {
+const Options = ({ onSelect }) => {
   const selectedIndex = useOptions(options);
   const selectedKey = options[selectedIndex].key;
   useInput((_, key) => {
