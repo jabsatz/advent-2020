@@ -7,6 +7,27 @@ const { OPTION_TYPE } = require('./constants');
 const axios = require('axios');
 const fs = require('fs/promises');
 
+const template = `const _ = require('lodash');
+
+const parse = (input) => {
+
+};
+
+const part1 = (input) => {
+  parse(input);
+};
+
+const part2 = (input) => {
+  parse(input);
+};
+
+const test = (input) => {
+
+};
+
+module.exports = { part1, part2, test };
+`;
+
 const RunText = ({ result, error, day }) => {
   if (result) {
     return (
@@ -45,6 +66,23 @@ const NewText = ({ result, error, day }) => {
   return <Text>Fetching input and creating file for day {day}...</Text>;
 };
 
+const TestText = ({ result, error, day }) => {
+  if (result) {
+    return (
+      <Text color="whiteBright">
+        All tests for day {day} passed.
+        <Newline />
+        <Text color="cyan">{result}</Text>
+      </Text>
+    );
+  }
+  if (error) {
+    console.error(error);
+    return <Text>Error on tests or test export doesn't exist.</Text>;
+  }
+  return <Text>Running tests for day {day}...</Text>;
+};
+
 const Progress = ({ option, day, onFinish }) => {
   const [isStarted, setIsStarted] = useState(false);
   const [result, setResult] = useState(null);
@@ -71,7 +109,20 @@ const Progress = ({ option, day, onFinish }) => {
         const newInputs = { ...inputs };
         newInputs[`day${day}`] = response.data.substring(0, response.data.length - 1); // remove trailing newline
         await fs.writeFile('./inputs.json', JSON.stringify(newInputs), 'utf-8');
+        try {
+          await fs.access(`./day${day}.js`);
+        } catch (error) {
+          await fs.writeFile(`./day${day}.js`, template, 'utf-8');
+        }
         setResult(response.data);
+      } else if (option === OPTION_TYPE.TEST) {
+        const { test } = require(`../day${day}`);
+        try {
+          const result = await test();
+          setResult(result);
+        } catch (err) {
+          setError(err);
+        }
       }
     };
     if (!isStarted) {
@@ -89,6 +140,7 @@ const Progress = ({ option, day, onFinish }) => {
       <Box>
         {option === OPTION_TYPE.RUN && <RunText day={day} error={error} result={result} />}
         {option === OPTION_TYPE.NEW && <NewText day={day} error={error} result={result} />}
+        {option === OPTION_TYPE.TEST && <TestText day={day} error={error} result={result} />}
       </Box>
       {result && (
         <Box>
