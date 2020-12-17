@@ -2,7 +2,7 @@ const React = require('react');
 const { useState, useEffect } = require('react');
 const _ = require('lodash');
 const { Text, useInput, Box, Newline } = require('ink');
-const inputs = require('../inputs.json');
+const inputs = require('../src/inputs.json');
 const { OPTION_TYPE } = require('./constants');
 const axios = require('axios');
 const fs = require('fs/promises');
@@ -10,15 +10,15 @@ const importJsx = require('import-jsx');
 const Test = importJsx('./Test');
 
 const createTestTemplate = day => `const { part1, part2 } = require('./day${day}')
-  const input = "";
+const input = "";
 
-  test('part1', () => {
-    expect(part1(input)).toBe(output);
-  });
+test('part1', () => {
+  expect(part1(input)).toBe(output);
+});
 
-  test('part2', () => {
-    expect(part2(input)).toBe(output);
-  });
+test('part2', () => {
+  expect(part2(input)).toBe(output);
+});
 `;
 
 const codeTemplate = `const _ = require('lodash');
@@ -98,7 +98,7 @@ const Progress = ({ option, day, onFinish }) => {
         }
       } else if (option === OPTION_TYPE.NEW) {
         try {
-          await fs.access(`./day${day}.js`);
+          await fs.access(`./src/day${day}.js`);
           setError('Code file already exists');
         } catch (error) {
           try {
@@ -110,9 +110,9 @@ const Progress = ({ option, day, onFinish }) => {
             });
             const newInputs = { ...inputs };
             newInputs[`day${day}`] = response.data.substring(0, response.data.length - 1); // remove trailing newline
-            await fs.writeFile('./inputs.json', JSON.stringify(newInputs), 'utf-8');
-            await fs.writeFile(`./day${day}.js`, codeTemplate, 'utf-8');
-            await fs.writeFile(`./day${day}.test.js`, createTestTemplate(day), 'utf-8');
+            await fs.writeFile('./src/inputs.json', JSON.stringify(newInputs), 'utf-8');
+            await fs.writeFile(`./src/day${day}.js`, codeTemplate, 'utf-8');
+            await fs.writeFile(`./src/day${day}.test.js`, createTestTemplate(day), 'utf-8');
             setResult(response.data);
           } catch (error) {
             if (error?.response?.status === 404) {

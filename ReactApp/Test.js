@@ -22,7 +22,7 @@ const Test = ({ day, onFinish }) => {
   useEffect(() => {
     const fn = async () => {
       try {
-        await fs.access(`./day${day}.test.js`);
+        await fs.access(`./src/day${day}.test.js`);
         await jestCli.run([`day${day}`, '--detectOpenHandles']);
         await new Promise(resolve => {
           const jestProcess = spawn('node_modules/.bin/jest', [`day${day}`]);
