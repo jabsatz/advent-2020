@@ -98,31 +98,32 @@ const Progress = ({ option, day, onFinish }) => {
         }
       } else if (option === OPTION_TYPE.NEW) {
         try {
-          const response = await axios({
-            url: `https://adventofcode.com/${process.env.ADVENT_YEAR}/day/${day}/input`,
-            headers: {
-              cookie: `session=${process.env.SESSION_TOKEN}`,
-            },
-          });
-          const newInputs = { ...inputs };
-          newInputs[`day${day}`] = response.data.substring(0, response.data.length - 1); // remove trailing newline
-          await fs.writeFile('./inputs.json', JSON.stringify(newInputs), 'utf-8');
+          await fs.access(`./day${day}.js`);
+          setError('Code file already exists');
+        } catch (error) {
           try {
-            await fs.access(`./day${day}.js`);
-          } catch (error) {
+            const response = await axios({
+              url: `https://adventofcode.com/${process.env.ADVENT_YEAR}/day/${day}/input`,
+              headers: {
+                cookie: `session=${process.env.SESSION_TOKEN}`,
+              },
+            });
+            const newInputs = { ...inputs };
+            newInputs[`day${day}`] = response.data.substring(0, response.data.length - 1); // remove trailing newline
+            await fs.writeFile('./inputs.json', JSON.stringify(newInputs), 'utf-8');
             await fs.writeFile(`./day${day}.js`, codeTemplate, 'utf-8');
             await fs.writeFile(`./day${day}.test.js`, createTestTemplate(day), 'utf-8');
+            setResult(response.data);
+          } catch (error) {
+            if (error?.response?.status === 404) {
+              return setError('Day is not yet available.');
+            }
+            if (error?.response?.status === 401) {
+              return setError('Unauthorized. Did you remember to set the SESSION_TOKEN env variable?');
+            }
+            console.error(error);
+            return setError('Unhandled error');
           }
-          setResult(response.data);
-        } catch (error) {
-          if (error?.response?.status === 404) {
-            return setError('Day is not yet available.');
-          }
-          if (error?.response?.status === 401) {
-            return setError('Unauthorized. Did you remember to set the SESSION_TOKEN env variable?');
-          }
-          console.error(error);
-          return setError('Unhandled error');
         }
       }
     };
