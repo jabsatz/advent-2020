@@ -1,7 +1,7 @@
 const React = require('react');
 const { useState } = require('react');
 const { render, Text, Box } = require('ink');
-const { PHASE_TYPE } = require('./constants');
+const { PHASE_TYPE, OPTION_TYPE } = require('./constants');
 const importJsx = require('import-jsx');
 const figlet = require('figlet');
 
@@ -15,6 +15,8 @@ const Advent = () => {
   const [selectedDay, setSelectedDay] = useState(null);
 
   const onSelectOption = selectedOption => {
+    if (selectedOption === OPTION_TYPE.EXIT) process.exit(0);
+
     setSelectedOption(selectedOption);
     setPhase(PHASE_TYPE.DAY);
   };

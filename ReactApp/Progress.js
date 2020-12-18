@@ -88,7 +88,7 @@ const Progress = ({ option, day, onFinish }) => {
   useEffect(() => {
     const fn = async () => {
       if (option === OPTION_TYPE.RUN) {
-        const { part1, part2 } = require(`../day${day}`);
+        const { part1, part2 } = require(`../src/day${day}`);
         try {
           const result1 = await part1(inputs[`day${day}`]);
           const result2 = await part2(inputs[`day${day}`]);

@@ -2,6 +2,7 @@ const OPTION_TYPE = {
   RUN: 'run',
   TEST: 'test',
   NEW: 'new',
+  EXIT: 'exit',
 };
 
 const PHASE_TYPE = {
@@ -14,6 +15,7 @@ const options = [
   { name: 'Run day', key: OPTION_TYPE.RUN },
   { name: 'Test day', key: OPTION_TYPE.TEST },
   { name: 'New day', key: OPTION_TYPE.NEW },
+  { name: 'Exit', key: OPTION_TYPE.EXIT },
 ];
 
 module.exports = { OPTION_TYPE, PHASE_TYPE, options };
