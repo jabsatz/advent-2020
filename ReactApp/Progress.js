@@ -142,7 +142,6 @@ const Progress = ({ option, day, onFinish }) => {
       <Box>
         {option === OPTION_TYPE.RUN && <RunText day={day} error={error} result={result} />}
         {option === OPTION_TYPE.NEW && <NewText day={day} error={error} result={result} />}
-        {option === OPTION_TYPE.TEST && <TestText day={day} error={error} result={result} />}
       </Box>
       {(result || error) && (
         <Box>
