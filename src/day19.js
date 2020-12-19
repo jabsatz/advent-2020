@@ -27,31 +27,30 @@ class MonsterRegex {
     return isValid;
   };
 
-  testAgainst = (initialMessage, keys) => {
-    const key = _.last(keys);
+  testAgainst = (initialMessage, key) => {
     const currentRule = this.rules[key];
 
     if (initialMessage.length === 0) return []; // nothing can match an empty message
-
-    if (typeof currentRule === 'string') {
+    if (typeof currentRule === 'string')
       return initialMessage.startsWith(currentRule) ? [initialMessage.substring(currentRule.length)] : [];
-    }
 
-    const messagesPassed = currentRule.flatMap(ruleSet => {
+    const messagesValid = currentRule.flatMap(ruleSet => {
       return ruleSet.reduce(
         (messagesToCheck, char) => {
-          return messagesToCheck.flatMap(message => this.testAgainst(message, [...keys, char]));
+          return messagesToCheck.flatMap(message => this.testAgainst(message, char));
         },
         [initialMessage],
       );
     });
 
-    return messagesPassed;
+    return messagesValid;
   };
 }
 
 const part1 = input => {
   const { rules, messages } = parse(input);
+
+  console.log(rules);
 
   const regexTester = new MonsterRegex(rules);
 
