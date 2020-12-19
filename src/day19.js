@@ -22,7 +22,7 @@ class MonsterRegex {
   }
 
   test = message => {
-    const messagesLeft = this.testAgainst(message, ['0']);
+    const messagesLeft = this.testAgainst(message, '0');
     const isValid = messagesLeft.some(message => message.length === 0);
     return isValid;
   };
