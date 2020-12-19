@@ -2,7 +2,6 @@ const React = require('react');
 const { useState, useEffect } = require('react');
 const _ = require('lodash');
 const { Text, useInput, Box, Newline } = require('ink');
-const inputs = require('../src/inputs.json');
 const { OPTION_TYPE } = require('./constants');
 const axios = require('axios');
 const fs = require('fs/promises');
@@ -87,6 +86,7 @@ const Progress = ({ option, day, onFinish }) => {
 
   useEffect(() => {
     const fn = async () => {
+      const inputs = require('../src/inputs.json');
       if (option === OPTION_TYPE.RUN) {
         const { part1, part2 } = require(`../src/day${day}`);
         try {
@@ -96,6 +96,7 @@ const Progress = ({ option, day, onFinish }) => {
         } catch (err) {
           setError(err);
         }
+        delete require.cache[require.resolve(`../src/day${day}`)];
       } else if (option === OPTION_TYPE.NEW) {
         try {
           await fs.access(`./src/day${day}.js`);
@@ -109,8 +110,10 @@ const Progress = ({ option, day, onFinish }) => {
               },
             });
             const newInputs = { ...inputs };
-            newInputs[`day${day}`] = response.data.substring(0, response.data.length - 1); // remove trailing newline
+            newInputs[`day${day}`] =
+              _.last(response.data) === '\n' ? response.data.substring(0, response.data.length - 1) : response.data; // remove trailing newline
             await fs.writeFile('./src/inputs.json', JSON.stringify(newInputs), 'utf-8');
+            delete require.cache[require.resolve('../src/inputs.json')];
             await fs.writeFile(`./src/day${day}.js`, codeTemplate, 'utf-8');
             await fs.writeFile(`./src/day${day}.test.js`, createTestTemplate(day), 'utf-8');
             setResult(response.data);
