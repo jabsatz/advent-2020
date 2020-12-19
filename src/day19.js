@@ -50,8 +50,6 @@ class MonsterRegex {
 const part1 = input => {
   const { rules, messages } = parse(input);
 
-  console.log(rules);
-
   const regexTester = new MonsterRegex(rules);
 
   return messages.filter(message => regexTester.test(message)).length;
