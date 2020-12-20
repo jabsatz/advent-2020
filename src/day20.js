@@ -16,6 +16,19 @@ const parse = input =>
 
 const reverseStr = str => _.reverse(str.split('')).join('');
 
+const print = (lines, snakes = {}) => {
+  process.stdout.write(chalk.red(`    ${lines.map((__, i) => (i % 10 === 0 ? i / 10 : ' ')).join('')}\n`));
+  process.stdout.write(chalk.red(`    ${lines.map((__, i) => _.last(`${i}`.split(''))).join('')}\n`));
+  lines.forEach((line, i) => {
+    process.stdout.write(chalk.red(`${i < 10 ? ' ' : ''}${i}: `));
+    line.split('').forEach((char, j) => {
+      if (snakes[`${i},${j}`]) process.stdout.write(chalk.bgRed(' '));
+      else process.stdout.write(char === '#' ? chalk.bgBlue(' ') : chalk.bgCyan(' '));
+    });
+    process.stdout.write('\n');
+  });
+};
+
 const getMatchingTiles = tileSides =>
   _.flow(
     _.flatMap(([fromId, sides]) => {
@@ -98,9 +111,7 @@ const TRANS = {
   FLIP_H: 'flip horizontal',
   COUNTER: 'rotate counter clockwise',
   CLOCK: 'rotate clockwise',
-  FLIP_V_COUNTER: 'flip vertical then rotate counter clockwise',
   FLIP_H_COUNTER: 'flip horizontal then rotate counter clockwise',
-  FLIP_V_CLOCK: 'flip vertical then rotate clockwise',
   FLIP_H_CLOCK: 'flip horizontal then rotate clockwise',
 };
 
@@ -117,10 +128,10 @@ const getTransformation = ({ fromSide, toSide, isReversed }) => {
     return isReversed ? TRANS.R_180 : isHorizontal(toSide) ? TRANS.FLIP_H : TRANS.FLIP_V;
   }
   if (fromSide === clockwiseDict[toSide]) {
-    return (isReversed && isVertical(toSide)) || (!isReversed && isHorizontal)
+    return (isReversed && isVertical(toSide)) || (!isReversed && isHorizontal(toSide))
       ? TRANS.COUNTER
       : isHorizontal(toSide)
-      ? TRANS.FLIP_V_COUNTER
+      ? TRANS.FLIP_H_CLOCK
       : TRANS.FLIP_H_COUNTER;
   }
   if (fromSide === oppositeDict[toSide]) {
@@ -130,7 +141,7 @@ const getTransformation = ({ fromSide, toSide, isReversed }) => {
     return (!isReversed && isVertical(toSide)) || (isReversed && isHorizontal(toSide))
       ? TRANS.CLOCK
       : isHorizontal(toSide)
-      ? TRANS.FLIP_V_CLOCK
+      ? TRANS.FLIP_H_COUNTER
       : TRANS.FLIP_H_CLOCK;
   }
   throw 'aaaaaaaaaaaa muerte';
@@ -148,9 +159,7 @@ const transFunctions = {
   [TRANS.FLIP_H]: flipHorizontal,
   [TRANS.COUNTER]: rotateCounterClockwise,
   [TRANS.CLOCK]: rotateClockwise,
-  [TRANS.FLIP_V_COUNTER]: _.flow(flipVertical, rotateCounterClockwise),
   [TRANS.FLIP_H_COUNTER]: _.flow(flipHorizontal, rotateCounterClockwise),
-  [TRANS.FLIP_V_CLOCK]: _.flow(flipVertical, rotateClockwise),
   [TRANS.FLIP_H_CLOCK]: _.flow(flipHorizontal, rotateClockwise),
 };
 
@@ -176,9 +185,7 @@ const transChartFunctions = {
   [TRANS.FLIP_H]: flipHorizontalChart,
   [TRANS.COUNTER]: rotateCounterClockwiseChart,
   [TRANS.CLOCK]: rotateClockwiseChart,
-  [TRANS.FLIP_V_COUNTER]: _.flow(flipVerticalChart, rotateCounterClockwiseChart),
   [TRANS.FLIP_H_COUNTER]: _.flow(flipHorizontalChart, rotateCounterClockwiseChart),
-  [TRANS.FLIP_V_CLOCK]: _.flow(flipVerticalChart, rotateClockwiseChart),
   [TRANS.FLIP_H_CLOCK]: _.flow(flipHorizontalChart, rotateClockwiseChart),
 };
 
@@ -192,6 +199,7 @@ const takeEdgesOffChart = chart =>
   )(chart);
 
 const buildFullChart = processedTiles => {
+  console.log(processedTiles[0]);
   let transformations = { [processedTiles[0].id]: TRANS.NOTHING };
   let nextTile = { id: processedTiles[0].id, x: 0, y: 0 };
   let nextRow = null;
@@ -270,14 +278,8 @@ const part2 = input => {
     });
 
     if (_.values(snakes).length > 0) {
-      lines.forEach((line, i) => {
-        process.stdout.write(chalk.red(`${i < 10 ? ' ' : ''}${i}: `));
-        line.split('').forEach((char, j) => {
-          if (snakes[`${i},${j}`]) process.stdout.write(chalk.greenBright(char));
-          else process.stdout.write(char === '#' ? chalk.blue(char) : chalk.grey(char));
-        });
-        process.stdout.write('\n');
-      });
+      console.log(transformation);
+      print(lines, snakes);
       return (
         lines
           .join('')
