@@ -1,6 +1,5 @@
 const React = require('react');
 const { useState } = require('react');
-const _ = require('lodash');
 const { Text, useInput, Box } = require('ink');
 const { options } = require('./constants');
 

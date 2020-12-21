@@ -1,3 +1,8 @@
+const importJsx = require('import-jsx');
+const Run = importJsx('./Run');
+const New = importJsx('./New');
+const Test = importJsx('./Test');
+
 const OPTION_TYPE = {
   RUN: 'run',
   TEST: 'test',
@@ -11,6 +16,12 @@ const PHASE_TYPE = {
   IN_PROGRESS: 'in-progress',
 };
 
+const OPTION_COMPONENT = {
+  [OPTION_TYPE.RUN]: Run,
+  [OPTION_TYPE.TEST]: Test,
+  [OPTION_TYPE.NEW]: New,
+};
+
 const options = [
   { name: 'Run day', key: OPTION_TYPE.RUN },
   { name: 'Test day', key: OPTION_TYPE.TEST },
@@ -18,4 +29,4 @@ const options = [
   { name: 'Exit', key: OPTION_TYPE.EXIT },
 ];
 
-module.exports = { OPTION_TYPE, PHASE_TYPE, options };
+module.exports = { OPTION_TYPE, PHASE_TYPE, OPTION_COMPONENT, options };
