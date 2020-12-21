@@ -199,7 +199,6 @@ const takeEdgesOffChart = chart =>
   )(chart);
 
 const buildFullChart = processedTiles => {
-  console.log(processedTiles[0]);
   let transformations = { [processedTiles[0].id]: TRANS.NOTHING };
   let nextTile = { id: processedTiles[0].id, x: 0, y: 0 };
   let nextRow = null;
@@ -282,8 +281,7 @@ const part2 = input => {
     });
 
     if (_.values(snakes).length > 0) {
-      console.log(transformation);
-      print(lines, snakes);
+      // print(lines, snakes);
       return (
         lines
           .join('')
@@ -293,8 +291,5 @@ const part2 = input => {
     }
   }
 };
-
-const input = require('./inputs.json').day20;
-console.log(part2(input));
 
 module.exports = { part1, part2 };
