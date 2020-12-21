@@ -115,3 +115,7 @@ test('part1', () => {
 test('part2', () => {
   expect(part2(input)).toBe(273);
 });
+
+test('part2 input', () => {
+  expect(part2(require('./inputs.json').day20)).toBe(2155);
+});

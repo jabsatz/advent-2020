@@ -260,7 +260,6 @@ const part2 = input => {
       if (i >= 1 && i < arr.length - 1) {
         const seaMonsterBodyMatches = line.matchAll(seaMonsterBody);
         for (const match of seaMonsterBodyMatches) {
-          console.log(i, match.index);
           const hasSeaMonsterHead = seaMonsterHead.test(arr[i - 1].substring(match.index));
           const hasSeaMonsterLegs = seaMonsterLegs.test(arr[i + 1].substring(match.index));
 
@@ -271,6 +270,8 @@ const part2 = input => {
             [...legs, ...body, head].forEach(snakePos => {
               snakes[snakePos] = true;
             });
+          } else if (transformation === TRANS.CLOCK) {
+            console.log(i, match.index);
           }
         }
       }
