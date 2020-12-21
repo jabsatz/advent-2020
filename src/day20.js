@@ -258,22 +258,25 @@ const part2 = input => {
     let snakes = {};
     lines.forEach((line, i, arr) => {
       if (i >= 1 && i < arr.length - 1) {
-        const seaMonsterBodyMatches = line.matchAll(seaMonsterBody);
-        for (const match of seaMonsterBodyMatches) {
-          const hasSeaMonsterHead = seaMonsterHead.test(arr[i - 1].substring(match.index));
-          const hasSeaMonsterLegs = seaMonsterLegs.test(arr[i + 1].substring(match.index));
+        const matches = [];
+        for (let j = 0; j < line.length - 20; j++) {
+          const toCheck = line.substring(j, j + 20);
+          const match = toCheck.match(seaMonsterBody);
+          if (match) matches.push(j);
+        }
+        matches.forEach(index => {
+          const hasSeaMonsterHead = seaMonsterHead.test(arr[i - 1].substring(index));
+          const hasSeaMonsterLegs = seaMonsterLegs.test(arr[i + 1].substring(index));
 
           if (hasSeaMonsterHead && hasSeaMonsterLegs) {
-            const legs = [1, 4, 7, 10, 13, 16].map(x => `${i + 1},${x + match.index}`);
-            const body = [0, 5, 6, 11, 12, 17, 18, 19].map(x => `${i},${x + match.index}`);
-            const head = `${i - 1},${match.index + 18}`;
+            const legs = [1, 4, 7, 10, 13, 16].map(x => `${i + 1},${x + index}`);
+            const body = [0, 5, 6, 11, 12, 17, 18, 19].map(x => `${i},${x + index}`);
+            const head = `${i - 1},${index + 18}`;
             [...legs, ...body, head].forEach(snakePos => {
               snakes[snakePos] = true;
             });
-          } else if (transformation === TRANS.CLOCK) {
-            console.log(i, match.index);
           }
-        }
+        });
       }
       return false;
     });
