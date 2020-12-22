@@ -1,7 +1,8 @@
 const React = require('react');
 const { useEffect, useState } = require('react');
-const { Text, useInput, Box } = require('ink');
+const { Text, useInput, Box, Newline } = require('ink');
 const axios = require('axios');
+const _ = require('lodash');
 const fs = require('fs/promises');
 
 const createTestTemplate = day => `const { part1, part2 } = require('./day${day}')
@@ -75,6 +76,7 @@ const New = ({ day, onFinish }) => {
               cookie: `session=${process.env.SESSION_TOKEN}`,
             },
           });
+          const inputs = require('../src/inputs.json');
           const newInputs = { ...inputs };
           newInputs[`day${day}`] =
             _.last(response.data) === '\n' ? response.data.substring(0, response.data.length - 1) : response.data; // remove trailing newline
